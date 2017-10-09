@@ -13,6 +13,8 @@ const VDragged = {
     }
     // registration
     Vue.directive('dragged', directive)
-  }
+  },
+
+  directive
 }
 export default VDragged

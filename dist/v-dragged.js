@@ -1,5 +1,5 @@
 /*
- * v-dragged v0.0.1
+ * v-dragged v0.0.2
  * https://github.com/zhanziyang/v-dragged
  * 
  * Copyright (c) 2017 zhanziyang
@@ -172,7 +172,9 @@ var VDragged = {
     }
     // registration
     Vue.directive('dragged', directive);
-  }
+  },
+
+  directive: directive
 };
 
 return VDragged;
