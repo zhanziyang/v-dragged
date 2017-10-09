@@ -69,7 +69,7 @@
     box-sizing: border-box
     text-align: center
     background-color: #0067c2
-    background-image: url("/static/carbon-fibre.png")
+    background-image: url("/v-dragged/static/carbon-fibre.png")
 
   h1
     color: #F5F7FA
