@@ -1,0 +1,64 @@
+{
+  "name": "v-dragged",
+  "version": "0.0.1",
+  "description": "Vue directive plugin for advanced drag event detection.",
+  "main": "dist/v-dragged.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:full": "rollup -c --environment BUILD:production",
+    "build:min": "rollup -c --environment BUILD:production-min",
+    "build:doc": "rollup -c",
+    "build": "npm run build:full && npm run build:doc && npm run build:min",
+    "dev": "rollup -c -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhanziyang/v-dragged.git"
+  },
+  "keywords": [
+    "drag",
+    "vue",
+    "event",
+    "directive",
+    "touch",
+    "moving",
+    "mouse",
+    "vue plugin",
+    "javascript",
+    "web",
+    "front-end",
+    "lightweight",
+    "mobile"
+  ],
+  "author": "zhanziyang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zhanziyang/v-dragged/issues"
+  },
+  "homepage": "https://zhanziyang.github.io/v-dragged/",
+  "devDependencies": {
+    "babel-eslint": "^7.2.3",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-preset-latest": "^6.24.1",
+    "eslint": "^3.19.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-html": "^3.0.0",
+    "eslint-plugin-import": "^2.3.0",
+    "eslint-plugin-node": "^5.0.0",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "file-loader": "^0.11.2",
+    "lodash": "^4.17.4",
+    "rollup": "^0.43.0",
+    "rollup-plugin-babel": "^2.7.1",
+    "rollup-plugin-commonjs": "^8.0.2",
+    "rollup-plugin-eslint": "^3.0.0",
+    "rollup-plugin-json": "^2.3.0",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-uglify": "^2.0.1",
+    "rollup-plugin-vue": "^2.4.0",
+    "rollup-watch": "^4.0.0",
+    "url-loader": "^0.5.9",
+    "vue": "^2.3.4"
+  }
+}

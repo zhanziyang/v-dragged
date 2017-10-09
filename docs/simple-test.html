@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
+  <style>
+    .vue-tooltip {
+      background-color: #000;
+      box-sizing: border-box;
+      color: #fff;
+      max-width: 320px;
+      padding: 6px 10px;
+      border-radius: 3px;
+      z-index: 100;
+      box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.4)
+    }
+
+    .vue-tooltip .vue-tooltip-content {
+      text-align: center
+    }
+
+    .vue-tooltip .tooltip-arrow {
+      content: '';
+      width: 0;
+      height: 0;
+      border-style: solid;
+      position: absolute;
+      margin: 5px
+    }
+
+    .vue-tooltip[x-placement^="top"] {
+      margin-bottom: 5px
+    }
+
+    .vue-tooltip[x-placement^="top"] .tooltip-arrow {
+      border-width: 5px 5px 0 5px;
+      border-top-color: #000;
+      border-bottom-color: transparent !important;
+      border-left-color: transparent !important;
+      border-right-color: transparent !important;
+      bottom: -5px;
+      margin-top: 0;
+      margin-bottom: 0
+    }
+
+    .vue-tooltip[x-placement^="bottom"] {
+      margin-top: 5px
+    }
+
+    .vue-tooltip[x-placement^="bottom"] .tooltip-arrow {
+      border-width: 0 5px 5px 5px;
+      border-bottom-color: #000;
+      border-top-color: transparent !important;
+      border-left-color: transparent !important;
+      border-right-color: transparent !important;
+      top: -5px;
+      margin-top: 0;
+      margin-bottom: 0
+    }
+
+    .vue-tooltip[x-placement^="right"] {
+      margin-left: 5px
+    }
+
+    .vue-tooltip[x-placement^="right"] .tooltip-arrow {
+      border-width: 5px 5px 5px 0;
+      border-right-color: #000;
+      border-top-color: transparent !important;
+      border-left-color: transparent !important;
+      border-bottom-color: transparent !important;
+      left: -5px;
+      margin-left: 0;
+      margin-right: 0
+    }
+
+    .vue-tooltip[x-placement^="left"] {
+      margin-right: 5px
+    }
+
+    .vue-tooltip[x-placement^="left"] .tooltip-arrow {
+      border-width: 5px 0 5px 5px;
+      border-left-color: #000;
+      border-top-color: transparent !important;
+      border-right-color: transparent !important;
+      border-bottom-color: transparent !important;
+      right: -5px;
+      margin-left: 0;
+      margin-right: 0
+    }
+  </style>
+  <style>
+    body,
+    html {
+      height: 100%;
+    }
+
+    #app {
+      height: 100%;
+      padding: 20px;
+      box-sizing: border-box;
+      text-align: center;
+      background-color: #0067c2;
+      background-image: url("/static/carbon-fibre.png");
+    }
+
+    h1 {
+      margin-bottom: 100px;
+      color: white;
+      margin-top: 0;
+      padding-top: 30px;
+    }
+
+    .box {
+      width: 200px;
+      height: 200px;
+      box-sizing: border-box;
+      padding: 15px;
+      background: white;
+      display: inline-block;
+      position: relative;
+      user-select: none;
+      text-align: left;
+      cursor: pointer;
+      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+      transition: box-shadow 0.3s cubic-bezier(.25, .8, .25, 1);
+      line-height: 1.8;
+      color: #272727;
+      font-family: Consolas, 'Courier New', 'Lucida Console';
+      border-radius: 4px;
+    }
+
+    .box.dragged {
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    }
+  </style>
+  <title>V-Dragged - Simple Test</title>
+</head>
+
+<body>
+  <div id="app">
+    <h1>V-Dragged Simple Test</h1>
+    <div :class="['box', {'dragged': dragged}]" v-dragged="onDragged" v-tooltip.notrigger="{ content: 'Drag me', visible: !dragged}">
+      <div>deltaX: {{deltaX}}</div>
+      <div>deltaY: {{deltaY}}</div>
+      <div>offsetX: {{offsetX}}</div>
+      <div>offsetY: {{offsetY}}</div>
+      <div>clientX: {{clientX}}</div>
+      <div>clientY: {{clientY}}</div>
+    </div>
+  </div>
+  <script src="https://unpkg.com/vue@2.4.2/dist/vue.js"></script>
+  <script src="https://unpkg.com/vue-directive-tooltip@1.4.0/dist/vueDirectiveTooltip.min.js"></script>
+  <script src="src/VDragged/v-dragged.js"></script>
+  <script>
+    Vue.use(VDragged)
+    Vue.use(vueDirectiveTooltip, { delay: 0, placement: 'right', class: 'tooltip-red', offset: 10 });
+    new Vue({
+      el: '#app',
+
+      data: {
+        deltaX: 0,
+        deltaY: 0,
+        offsetX: 0,
+        offsetY: 0,
+        clientX: 0,
+        clientY: 0,
+        dragged: false
+      },
+
+      methods: {
+        onDragged({ el, deltaX, deltaY, offsetX, offsetY, clientX, clientY, first, last }) {
+          if (first) {
+            this.dragged = true
+            return
+          }
+          if (last) {
+            this.dragged = false
+            return
+          }
+          var l = +window.getComputedStyle(el)['left'].slice(0, -2) || 0
+          var t = +window.getComputedStyle(el)['top'].slice(0, -2) || 0
+          el.style.left = l + deltaX + 'px'
+          el.style.top = t + deltaY + 'px'
+          console.log(deltaX, deltaY)
+          this.deltaX = deltaX
+          this.deltaY = deltaY
+          this.offsetX = offsetX
+          this.offsetY = offsetY
+          this.clientX = clientX
+          this.clientY = clientY
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>
