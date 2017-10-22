@@ -1,5 +1,5 @@
 /*
- * v-dragged v0.0.2
+ * v-dragged v0.0.3
  * https://github.com/zhanziyang/v-dragged
  * 
  * Copyright (c) 2017 zhanziyang
@@ -118,6 +118,7 @@ var u = {
 var POINTER_START_EVENTS = ['mousedown', 'touchstart'];
 var POINTER_MOVE_EVENTS = ['mousemove', 'touchmove'];
 var POINTER_END_EVENTS = ['mouseup', 'touchend'];
+var draggedElem;
 
 var directive = {
   inserted: function inserted(el, binding, vnode) {
@@ -127,13 +128,29 @@ var directive = {
         x: evt.clientX,
         y: evt.clientY
       };
-      binding.value({ el: el, first: true, clientX: evt.clientX, clientY: evt.clientY });
+      binding.value({
+        el: el,
+        first: true,
+        clientX: evt.clientX,
+        clientY: evt.clientY
+      });
+      draggedElem = el;
     }
     function onPointerEnd(evt) {
+      if (el !== draggedElem) return;
+      evt.preventDefault();
       el.lastCoords = null;
-      binding.value({ el: el, last: true, clientX: evt.clientX, clientY: evt.clientY });
+      binding.value({
+        el: el,
+        last: true,
+        clientX: evt.clientX,
+        clientY: evt.clientY
+      });
+      draggedElem = null;
     }
     function onPointerMove(evt) {
+      if (el !== draggedElem) return;
+      evt.preventDefault();
       if (el.lastCoords) {
         var deltaX = evt.clientX - el.lastCoords.x;
         var deltaY = evt.clientY - el.lastCoords.y;
@@ -142,7 +159,15 @@ var directive = {
         var clientX = evt.clientX;
         var clientY = evt.clientY;
 
-        binding.value({ el: el, deltaX: deltaX, deltaY: deltaY, offsetX: offsetX, offsetY: offsetY, clientX: clientX, clientY: clientY });
+        binding.value({
+          el: el,
+          deltaX: deltaX,
+          deltaY: deltaY,
+          offsetX: offsetX,
+          offsetY: offsetY,
+          clientX: clientX,
+          clientY: clientY
+        });
         el.lastCoords = {
           x: evt.clientX,
           y: evt.clientY
