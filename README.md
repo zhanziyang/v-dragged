@@ -82,3 +82,11 @@ The argument passed to the callback function is an object containing the followi
 #### clientY
 - Current y coordination of the pointer (mouse/touch).
 - type: Number
+
+## Modifier
+
+#### prevent
+- prevent default on pointer events (touchstart, touchmove, touchend, mousedown, mousemove, mouseup).
+```html
+<div v-dragged.prevent="onDragged"></div>
+```
