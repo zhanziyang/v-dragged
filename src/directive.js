@@ -9,6 +9,8 @@ export default {
   inserted(el, binding, vnode) {
     if (!document) return
     function onPointerStart(evt) {
+      if (evt.button === 2) return
+
       el.lastCoords = el.firstCoords = {
         x: evt.clientX,
         y: evt.clientY
